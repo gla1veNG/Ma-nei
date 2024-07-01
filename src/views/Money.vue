@@ -4,11 +4,22 @@
 
     <Tabs :dataSource="recordTypeList" :value.sync="record.type" />
 
-    <FormItem
+   <div class="notes">
+       <FormItem
       field-name="备注"
       placeholder="请在这里输入备注"
       :value.sync="record.notes"
     />
+   </div>
+
+  <div class="createdAt">
+       <FormItem
+      field-name="日期"
+      type="date"
+      placeholder="请在这里输入日期"
+      :value.sync="record.createdAt"
+    />
+   </div>
 
     <Tags @update:value="record.tags = $event" />
   </layout>
@@ -33,7 +44,7 @@ export default class Money extends Vue {
   }
 
   recordTypeList = recordTypeList;
-  record: RecordItem = { tags: [], notes: "", type: "-", amount: 0 };
+  record: RecordItem = { tags: [], notes: "", type: "-", amount: 0,createdAt:new Date().toISOString()};
 
   created() {
     this.$store.commit("fetchRecords");

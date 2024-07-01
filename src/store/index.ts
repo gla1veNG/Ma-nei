@@ -12,7 +12,7 @@ const store = new Vuex.Store({
   state: {
     recordList:[] ,
     tagList:[] ,
-    createRecordError:null,
+    createRecordError:null, 
     createTagError:null,
     currentTag:undefined 
   } as RootState,
@@ -56,7 +56,7 @@ const store = new Vuex.Store({
   },
     createRecord(state,record:RecordItem){
       const record2 = clone(record);
-      record2.createdAt=new Date().toISOString();
+      record2.createdAt= record2.createdAt || new Date().toISOString();
       state.recordList.push(record2);
       store.commit('saveRecords');
     },
