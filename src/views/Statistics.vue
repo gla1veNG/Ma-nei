@@ -1,7 +1,7 @@
 <template>
   <layout>
     <Tabs classPrefix="type" :dataSource="recordTypeList" :value.sync="type" />
-
+    <Chart :options="x"/> 
     <ol v-if="groupedList.length > 0">
       <li v-for="(group, index) in groupedList" :key="index">
         <h3 class="title">
@@ -29,9 +29,10 @@ import intervalList from "@/constants/intervalList";
 import recordTypeList from "@/constants/recordTypeList";
 import dayjs from "dayjs";
 import clone from "@/lib/clone";
+import Chart from "@/components/Chart.vue"
 
 @Component({
-  components: { Tabs },
+  components: { Tabs, Chart },
 })
 export default class Statistics extends Vue {
   tagstring(tags: Tag[]) {
@@ -54,7 +55,26 @@ export default class Statistics extends Vue {
       return day.format("YYYY年M月D日");
     }
   }
-
+//圆柱
+  get x(){
+    return{
+       xAxis: {
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [{
+        data: [120, 200, 150, 80, 70, 110, 130],
+        type: 'bar',
+        showBackground: true,
+        backgroundStyle: {
+            color: 'rgba(220, 220, 220, 0.8)'
+        }
+    }]
+    }
+  }
   get recordList() {
     return (this.$store.state as RootState).recordList;
   }
@@ -113,6 +133,10 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.echarts {
+  max-width: 100%;
+  height: 400px;
+}
 ::v-deep {
   .type-tabs-item {
     background: white;
