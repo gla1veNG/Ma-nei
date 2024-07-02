@@ -1,7 +1,7 @@
 <template>
   <layout>
     <Tabs classPrefix="type" :dataSource="recordTypeList" :value.sync="type" />
-    <Chart :options="x"/> 
+    <div class="chart-wrapper" ref="chartWrapper"><Chart class="chart" :options="x"/> </div>
     <ol v-if="groupedList.length > 0">
       <li v-for="(group, index) in groupedList" :key="index">
         <h3 class="title">
@@ -39,6 +39,10 @@ export default class Statistics extends Vue {
     return tags.length === 0 ? "无" : tags.map((t) => t.name).join("，");
   }
 
+  mounted(){
+    (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999;
+  }
+
   beautify(string: string) {
     const day = dayjs(string);
     const now = dayjs();
@@ -58,12 +62,17 @@ export default class Statistics extends Vue {
 //圆柱
   get x(){
     return{
+      grid:{
+        left:0,
+        right:0,
+      },
        xAxis: {
         type: 'category',
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     },
     yAxis: {
-        type: 'value'
+        type: 'value',
+        show:false
     },
     series: [{
         data: [120, 200, 150, 80, 70, 110, 130],
@@ -176,5 +185,11 @@ export default class Statistics extends Vue {
 .noResult {
   padding: 16px;
   text-align: center;
+}
+.chart{
+  width: 430%;
+  &-wrapper{
+    overflow: auto;
+  }
 }
 </style>
