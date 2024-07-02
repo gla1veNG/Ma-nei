@@ -190,6 +190,9 @@ export default class Statistics extends Vue {
   width: 430%;
   &-wrapper{
     overflow: auto;
+    &::-webkit-scrollbar{
+      display: none;
+    }
   }
 }
 </style>
