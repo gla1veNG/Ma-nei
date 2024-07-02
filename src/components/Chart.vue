@@ -4,7 +4,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import echarts,{ EChartsOption } from "echarts";
+import * as echarts from "echarts";
+import { EChartsOption } from "echarts";
 
 @Component
 export default class Chart extends Vue {   
