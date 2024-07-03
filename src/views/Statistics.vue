@@ -59,7 +59,7 @@ export default class Statistics extends Vue {
       return day.format("YYYY年M月D日");
     }
   }
-//圆柱
+
   get x(){
     return{
       grid:{
@@ -75,15 +75,14 @@ export default class Statistics extends Vue {
         show:false
     },
     series: [{
+        symbolSize:12,
         data: [120, 200, 150, 80, 70, 110, 130],
-        type: 'bar',
-        showBackground: true,
-        backgroundStyle: {
-            color: 'rgba(220, 220, 220, 0.8)'
-        }
-    }]
+        type: 'line',
+    }],
+    tooltip:{show:true}
     }
   }
+
   get recordList() {
     return (this.$store.state as RootState).recordList;
   }
