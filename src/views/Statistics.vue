@@ -68,6 +68,7 @@ export default class Statistics extends Vue {
        xAxis: {
         type: 'category',
         axisTick:{alignWithLabel:true},
+        axisLine:{lineStyle:{color:'#e5adae'}},
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     },
     yAxis: {
@@ -75,7 +76,9 @@ export default class Statistics extends Vue {
         show:false
     },
     series: [{
+        // symbol:'circle',
         symbolSize:12,
+        itemStyle:{borderWidth:1,color:'#fce5b0'},
         data: [120, 200, 150, 80, 70, 110, 130],
         type: 'line',
     }],
