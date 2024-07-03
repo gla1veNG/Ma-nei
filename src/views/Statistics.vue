@@ -59,7 +59,6 @@ export default class Statistics extends Vue {
       return day.format("YYYY年M月D日");
     }
   }
-
   get x(){
     return{
       grid:{
@@ -68,6 +67,7 @@ export default class Statistics extends Vue {
       },
        xAxis: {
         type: 'category',
+        axisTick:{alignWithLabel:true},
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     },
     yAxis: {
