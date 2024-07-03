@@ -82,7 +82,7 @@ export default class Statistics extends Vue {
         data: [120, 200, 150, 80, 70, 110, 130],
         type: 'line',
     }],
-    tooltip:{show:true}
+    tooltip:{show:true,triggerOn:'click'}
     }
   }
 
