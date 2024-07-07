@@ -1,7 +1,9 @@
 <template>
   <layout>
     <Tabs classPrefix="type" :dataSource="recordTypeList" :value.sync="type" />
-    <div class="chart-wrapper" ref="chartWrapper"><Chart class="chart" :options="x"/> </div>
+    <div class="chart-wrapper" ref="chartWrapper">
+      <Chart class="chart" :options="x" />
+    </div>
     <ol v-if="groupedList.length > 0">
       <li v-for="(group, index) in groupedList" :key="index">
         <h3 class="title">
@@ -29,9 +31,9 @@ import intervalList from "@/constants/intervalList";
 import recordTypeList from "@/constants/recordTypeList";
 import dayjs from "dayjs";
 import clone from "@/lib/clone";
-import Chart from "@/components/Chart.vue"
-import _ from 'lodash'
-import day from 'dayjs'
+import Chart from "@/components/Chart.vue";
+import _ from "lodash";
+import day from "dayjs";
 
 @Component({
   components: { Tabs, Chart },
@@ -41,8 +43,8 @@ export default class Statistics extends Vue {
     return tags.length === 0 ? "无" : tags.map((t) => t.name).join("，");
   }
 
-  mounted(){
-    const div = (this.$refs.chartWrapper as HTMLDivElement);
+  mounted() {
+    const div = this.$refs.chartWrapper as HTMLDivElement;
     div.scrollLeft = div.scrollWidth;
   }
 
@@ -62,60 +64,63 @@ export default class Statistics extends Vue {
       return day.format("YYYY年M月D日");
     }
   }
-  get y(){
+  get y() {
     const today = new Date();
     const array = [];
-    for(let i = 0; i<=29;i++){
-      const dateString = day(today).subtract(i,'day').format('YYYY-MM-DD');
-      const found = _.find(this.recordList,{createdAt:dateString});
-      console.log('found');
-      console.log(found);
-      array.push({date:dateString,value:found ? found.amount : 0});
+    for (let i = 0; i <= 29; i++) {
+      const dateString = day(today).subtract(i, "day").format("YYYY-MM-DD");
+      const found = _.find(this.recordList, { createdAt: dateString });
+      array.push({ date: dateString, value: found ? found.amount : 0 });
     }
-    array.sort((a,b)=>{
-      if(a.date > b.date){
-        return 1
-      }else if(a.date  === b.date){
-        return 0
-      }else{
-        return -1
+    array.sort((a, b) => {
+      if (a.date > b.date) {
+        return 1;
+      } else if (a.date === b.date) {
+        return 0;
+      } else {
+        return -1;
       }
-    })
-      return array;
-    console.log(this.recordList);
-    // console.log(array);
+    });
+    return array;
   }
-  get x(){
-    const keys = this.y.map(item=>item.date);
-    const values = this.y.map(item=>item.value)
-    return{
-      grid:{
-        left:0,
-        right:0,
+  get x() {
+    const keys = this.y.map((item) => item.date);
+    const values = this.y.map((item) => item.value);
+    return {
+      grid: {
+        left: 0,
+        right: 0,
       },
-       xAxis: {
-        type: 'category',
-        axisTick:{alignWithLabel:true},
-        axisLine:{lineStyle:{color:'#e5adae'}},
-        data: keys
-    },
-    yAxis: {
-        type: 'value',
-        show:false
-    },
-    series: [{
-        // symbol:'circle',
-        symbolSize:12,
-        itemStyle:{borderWidth:1,color:'#fce5b0'},
-        data: values,
-        type: 'line',
-    }],
-    tooltip:{
-        show:true,
-        triggerOn:'click',
-        position:'top'
-      }
-    }
+      xAxis: {
+        type: "category",
+        axisTick: { alignWithLabel: true },
+        axisLine: { lineStyle: { color: "#e5adae" } },
+        axisLabel: {
+          formatter: function (value: string, index: number) {
+            return value.substring(5);
+          },
+        },
+        data: keys,
+      },
+      yAxis: {
+        type: "value",
+        show: false,
+      },
+      series: [
+        {
+          // symbol:'circle',
+          symbolSize: 12,
+          itemStyle: { borderWidth: 1, color: "#fce5b0" },
+          data: values,
+          type: "line",
+        },
+      ],
+      tooltip: {
+        show: true,
+        triggerOn: "click",
+        position: "top",
+      },
+    };
   }
 
   get recordList() {
@@ -220,11 +225,11 @@ export default class Statistics extends Vue {
   padding: 16px;
   text-align: center;
 }
-.chart{
+.chart {
   width: 430%;
-  &-wrapper{
+  &-wrapper {
     overflow: auto;
-    &::-webkit-scrollbar{
+    &::-webkit-scrollbar {
       display: none;
     }
   }
