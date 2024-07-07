@@ -62,17 +62,32 @@ export default class Statistics extends Vue {
       return day.format("YYYY年M月D日");
     }
   }
-  get x(){
+  get y(){
     const today = new Date();
     const array = [];
     for(let i = 0; i<=29;i++){
       const dateString = day(today).subtract(i,'day').format('YYYY-MM-DD');
       const found = _.find(this.recordList,{createdAt:dateString});
+      console.log('found');
+      console.log(found);
       array.push({date:dateString,value:found ? found.amount : 0});
     }
-    console.log(array);
-    const keys = array.map(item=>item.date);
-    const values = array.map(item=>item.value)
+    array.sort((a,b)=>{
+      if(a.date > b.date){
+        return 1
+      }else if(a.date  === b.date){
+        return 0
+      }else{
+        return -1
+      }
+    })
+      return array;
+    console.log(this.recordList);
+    // console.log(array);
+  }
+  get x(){
+    const keys = this.y.map(item=>item.date);
+    const values = this.y.map(item=>item.value)
     return{
       grid:{
         left:0,
