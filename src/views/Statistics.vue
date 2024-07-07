@@ -30,6 +30,8 @@ import recordTypeList from "@/constants/recordTypeList";
 import dayjs from "dayjs";
 import clone from "@/lib/clone";
 import Chart from "@/components/Chart.vue"
+import _ from 'lodash'
+import day from 'dayjs'
 
 @Component({
   components: { Tabs, Chart },
@@ -61,6 +63,16 @@ export default class Statistics extends Vue {
     }
   }
   get x(){
+    const today = new Date();
+    const array = [];
+    for(let i = 0; i<=29;i++){
+      const dateString = day(today).subtract(i,'day').format('YYYY-MM-DD');
+      const found = _.find(this.recordList,{createdAt:dateString});
+      array.push({date:dateString,value:found ? found.amount : 0});
+    }
+    console.log(array);
+    const keys = array.map(item=>item.date);
+    const values = array.map(item=>item.value)
     return{
       grid:{
         left:0,
@@ -70,7 +82,7 @@ export default class Statistics extends Vue {
         type: 'category',
         axisTick:{alignWithLabel:true},
         axisLine:{lineStyle:{color:'#e5adae'}},
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        data: keys
     },
     yAxis: {
         type: 'value',
@@ -80,7 +92,7 @@ export default class Statistics extends Vue {
         // symbol:'circle',
         symbolSize:12,
         itemStyle:{borderWidth:1,color:'#fce5b0'},
-        data: [120, 200, 150, 80, 70, 110, 130],
+        data: values,
         type: 'line',
     }],
     tooltip:{
