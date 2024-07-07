@@ -119,6 +119,7 @@ export default class Statistics extends Vue {
         show: true,
         triggerOn: "click",
         position: "top",
+        formatter:'{c}'
       },
     };
   }
